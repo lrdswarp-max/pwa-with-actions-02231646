@@ -2,14 +2,11 @@
 
 import { createSupabaseServerClient } from '@/lib/supabase-server';
 import Link from 'next/link';
-import { headers } from 'next/headers';
 import { revalidatePath } from 'next/cache';
 
 function buildRedirectUrl() {
-  const hdr = headers();
-  const host = hdr.get('x-forwarded-host') || hdr.get('host') || 'localhost:3000';
-  const proto = hdr.get('x-forwarded-proto') || 'https';
-  return `${proto}://${host}/auth`;
+  const baseHost = process.env.NEXT_PUBLIC_APP_URL || 'https://pwa-with-actions-02231646.vercel.app';
+  return `${baseHost.replace(/\/$/, '')}/auth`;
 }
 
 async function sendMagicLink(formData: FormData) {
